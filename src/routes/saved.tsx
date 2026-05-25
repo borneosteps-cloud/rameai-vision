@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/saved")({
   head: () => ({
     meta: [
-      { title: "Saved ideas · RameAL" },
+      { title: "Saved ideas · RAMEAI" },
       { name: "description", content: "Your saved Wandy POV scripts and captions." },
     ],
   }),

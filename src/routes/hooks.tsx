@@ -35,7 +35,7 @@ import { usePersistentState } from "@/hooks/usePersistentState";
 export const Route = createFileRoute("/hooks")({
   head: () => ({
     meta: [
-      { title: "Hook library · RameAL" },
+      { title: "Hook library · RAMEAI" },
       { name: "description", content: "20+ viral hook templates, AI-rewriter, and quick insert into scripts." },
     ],
   }),

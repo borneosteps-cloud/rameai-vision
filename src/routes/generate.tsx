@@ -29,7 +29,7 @@ export const Route = createFileRoute("/generate")({
   validateSearch: zodValidator(generateSearchSchema),
   head: () => ({
     meta: [
-      { title: "Generate · RameAL" },
+      { title: "Generate · RAMEAI" },
       { name: "description", content: "Generate Wandy POV scripts for Reels & TikTok in seconds." },
     ],
   }),

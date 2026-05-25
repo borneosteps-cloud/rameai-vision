@@ -101,7 +101,7 @@ export const generateIdeas = createServerFn({ method: "POST" })
       ? `# Persona: ${persona.name}\n\n## Identity\n${persona.identity_md}\n\n## Style\n${persona.style_md}\n\n## Do\n${persona.do_md}\n\n## Don't\n${persona.dont_md}`
       : "Persona: Wandy POV — honest Indonesian travel creator in Sydney.";
 
-    const system = `You are RameAL, the creative brain of the creator persona "Wandy POV".
+    const system = `You are RAMEAI, the creative brain of the creator persona "Wandy POV".
 
 ${personaBlock}
 
@@ -156,7 +156,7 @@ Return ${data.count} distinct, non-repetitive ideas. Each TITLE must be a short 
 
     try {
       const gateway = createLovableAiGatewayProvider(apiKey);
-      const model = gateway("google/gemini-3-flash-preview");
+      const model = gateway("google/gemini-3.1-flash-lite-preview");
 
       const { text } = await generateText({
         model,

@@ -64,7 +64,7 @@
 
 :root {
   --radius: 0.875rem;
-  /* RameAL — dark-first OLED palette with warm coral accent */
+  /* RAMEAI — dark-first OLED palette with warm coral accent */
   --background: oklch(0.14 0.012 60);
   --foreground: oklch(0.97 0.01 80);
   --card: oklch(0.18 0.014 60);
