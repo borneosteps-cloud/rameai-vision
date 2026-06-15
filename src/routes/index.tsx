@@ -63,10 +63,10 @@ function Home() {
         <p className="mt-2 max-w-md text-sm text-primary-foreground/85">
           {t("home.subtitle")}
         </p>
-        <Link to="/generate" className="mt-4 inline-block">
+        <Link to="/brainstorm" className="mt-4 inline-block">
           <Button size="lg" variant="secondary" className="rounded-full">
             <Sparkles className="mr-2 h-4 w-4" />
-            {t("home.cta")}
+            {lang === "id" ? "Brainstorm" : "Brainstorm"}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
