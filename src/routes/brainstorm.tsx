@@ -231,13 +231,13 @@ function BrainstormPage() {
                     send();
                   }
                 }}
-                rows={1}
+                rows={4}
                 placeholder={
                   lang === "id"
                     ? "contoh: Gue lagi di Kam Fung Bakery, Wan Chai, Hong Kong..."
                     : "e.g. I'm at Kam Fung Bakery in Wan Chai, Hong Kong right now..."
                 }
-                className="resize-none border-border/60 bg-background/40 max-h-[120px] min-h-[44px]"
+                className="resize-y border-border/60 bg-background/40 max-h-[260px] min-h-[120px] text-base"
               />
               <Button
                 onClick={send}
