@@ -91,6 +91,7 @@ const en: Dict = {
 const id: Dict = {
   "nav.home": "Beranda",
   "nav.generate": "Generate",
+  "nav.brainstorm": "Brainstorm",
   "nav.saved": "Tersimpan",
   "nav.hooks": "Library",
   "nav.persona": "Persona",
