@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Sparkles, Bookmark, Quote, ArrowRight } from "lucide-react";
+import { Bookmark, Quote, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import logoAsset from "@/assets/logo_orange_only.svg.asset.json";
 import { useLang } from "@/i18n/LanguageProvider";
 import { usePersona } from "@/i18n/PersonaProvider";
 
@@ -65,7 +66,7 @@ function Home() {
         </p>
         <Link to="/brainstorm" className="mt-4 inline-block">
           <Button size="lg" variant="secondary" className="rounded-full">
-            <Sparkles className="mr-2 h-4 w-4" />
+            <img src={logoAsset.url} alt="" className="mr-2 h-4 w-4 object-contain" />
             {lang === "id" ? "Brainstorm" : "Brainstorm"}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
