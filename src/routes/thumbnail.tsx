@@ -285,9 +285,7 @@ function ThumbnailPage() {
                 <Slider min={0} max={24} step={1} value={[subBlur]} onValueChange={(v) => setSubBlur(v[0])} />
               </Row>
               <AlignRow value={subAlign} onChange={setSubAlign} />
-              <Row label={`Y position ${Math.round(subY * 100)}%`}>
-                <Slider min={8} max={92} step={1} value={[subY * 100]} onValueChange={(v) => setSubY(v[0] / 100)} />
-              </Row>
+              <p className="text-[11px] text-muted-foreground">Drag the subtitle on the canvas to reposition.</p>
             </TabsContent>
 
             <TabsContent value="emoji" className="space-y-3 rounded-2xl border border-border/60 bg-card p-4">
