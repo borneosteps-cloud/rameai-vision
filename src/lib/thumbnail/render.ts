@@ -8,6 +8,7 @@ export type TextLayer = {
   shadowColor: string;
   shadowBlur: number;
   align: "left" | "center" | "right";
+  xPct: number; // 0..1 horizontal offset from default anchor
   yPct: number; // 0..1
 };
 
