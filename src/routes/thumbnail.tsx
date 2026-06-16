@@ -161,8 +161,12 @@ function ThumbnailPage() {
               ref={canvasRef}
               width={DISPLAY_W}
               height={DISPLAY_H}
-              className="rounded-2xl border border-border/60 shadow-[var(--shadow-glow)]"
-              style={{ width: DISPLAY_W, height: DISPLAY_H, maxWidth: "100%" }}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerEnd}
+              onPointerCancel={handlePointerEnd}
+              className="touch-none rounded-2xl border border-border/60 shadow-[var(--shadow-glow)]"
+              style={{ width: DISPLAY_W, height: DISPLAY_H, maxWidth: "100%", cursor: dragging ? "grabbing" : "grab" }}
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
