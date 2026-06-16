@@ -65,7 +65,9 @@ function ThumbnailPage() {
   const [emojiSize, setEmojiSize] = useState(64);
   const [emojiX, setEmojiX] = useState(0.5);
   const [emojiY, setEmojiY] = useState(0.5);
-  const [emojiShow, setEmojiShow] = useState(true);
+  const [emojiShow, setEmojiShow] = useState(false);
+
+  const [dragging, setDragging] = useState<null | "title" | "subtitle" | "emoji">(null);
 
   const [fontFamily, setFontFamily] = useState<string>("Bebas Neue");
   const [fontStatus, setFontStatus] = useState<string>("idle");
@@ -144,6 +146,57 @@ function ThumbnailPage() {
     a.click();
   }
 
+  function getCanvasPoint(e: React.PointerEvent<HTMLCanvasElement>) {
+    const c = canvasRef.current!;
+    const rect = c.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * DISPLAY_W;
+    const y = ((e.clientY - rect.top) / rect.height) * DISPLAY_H;
+    return { x, y };
+  }
+
+  function hitTest(x: number, y: number): "title" | "subtitle" | "emoji" | null {
+    if (emojiShow && emoji.trim()) {
+      const ex = emojiX * DISPLAY_W;
+      const ey = emojiY * DISPLAY_H;
+      const r = emojiSize * 0.6;
+      if (Math.abs(x - ex) < r && Math.abs(y - ey) < r) return "emoji";
+    }
+    if (subShow && subText.trim()) {
+      const sy = subY * DISPLAY_H;
+      if (Math.abs(y - sy) < subSize * 0.9) return "subtitle";
+    }
+    if (titleText.trim()) {
+      const ty = titleY * DISPLAY_H;
+      if (Math.abs(y - ty) < titleSize * 0.9) return "title";
+    }
+    return null;
+  }
+
+  function handlePointerDown(e: React.PointerEvent<HTMLCanvasElement>) {
+    const { x, y } = getCanvasPoint(e);
+    const hit = hitTest(x, y);
+    if (!hit) return;
+    setDragging(hit);
+    (e.target as HTMLCanvasElement).setPointerCapture(e.pointerId);
+  }
+
+  function handlePointerMove(e: React.PointerEvent<HTMLCanvasElement>) {
+    if (!dragging) return;
+    const { x, y } = getCanvasPoint(e);
+    const yPct = Math.max(0.02, Math.min(0.98, y / DISPLAY_H));
+    if (dragging === "title") setTitleY(yPct);
+    else if (dragging === "subtitle") setSubY(yPct);
+    else if (dragging === "emoji") {
+      setEmojiX(Math.max(0, Math.min(1, x / DISPLAY_W)));
+      setEmojiY(yPct);
+    }
+  }
+
+  function handlePointerEnd(e: React.PointerEvent<HTMLCanvasElement>) {
+    if (dragging) setDragging(null);
+    try { (e.target as HTMLCanvasElement).releasePointerCapture(e.pointerId); } catch {}
+  }
+
   return (
     <div className="space-y-4">
       <div>
@@ -159,8 +212,12 @@ function ThumbnailPage() {
               ref={canvasRef}
               width={DISPLAY_W}
               height={DISPLAY_H}
-              className="rounded-2xl border border-border/60 shadow-[var(--shadow-glow)]"
-              style={{ width: DISPLAY_W, height: DISPLAY_H, maxWidth: "100%" }}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerEnd}
+              onPointerCancel={handlePointerEnd}
+              className="touch-none rounded-2xl border border-border/60 shadow-[var(--shadow-glow)]"
+              style={{ width: DISPLAY_W, height: DISPLAY_H, maxWidth: "100%", cursor: dragging ? "grabbing" : "grab" }}
             />
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -210,9 +267,7 @@ function ThumbnailPage() {
                 <Slider min={0} max={24} step={1} value={[titleBlur]} onValueChange={(v) => setTitleBlur(v[0])} />
               </Row>
               <AlignRow value={titleAlign} onChange={setTitleAlign} />
-              <Row label={`Y position ${Math.round(titleY * 100)}%`}>
-                <Slider min={8} max={92} step={1} value={[titleY * 100]} onValueChange={(v) => setTitleY(v[0] / 100)} />
-              </Row>
+              <p className="text-[11px] text-muted-foreground">Drag the title on the canvas to reposition.</p>
             </TabsContent>
 
             <TabsContent value="subtitle" className="space-y-3 rounded-2xl border border-border/60 bg-card p-4">
@@ -230,9 +285,7 @@ function ThumbnailPage() {
                 <Slider min={0} max={24} step={1} value={[subBlur]} onValueChange={(v) => setSubBlur(v[0])} />
               </Row>
               <AlignRow value={subAlign} onChange={setSubAlign} />
-              <Row label={`Y position ${Math.round(subY * 100)}%`}>
-                <Slider min={8} max={92} step={1} value={[subY * 100]} onValueChange={(v) => setSubY(v[0] / 100)} />
-              </Row>
+              <p className="text-[11px] text-muted-foreground">Drag the subtitle on the canvas to reposition.</p>
             </TabsContent>
 
             <TabsContent value="emoji" className="space-y-3 rounded-2xl border border-border/60 bg-card p-4">
@@ -244,12 +297,7 @@ function ThumbnailPage() {
               <Row label={`Size ${emojiSize}px`}>
                 <Slider min={20} max={130} step={1} value={[emojiSize]} onValueChange={(v) => setEmojiSize(v[0])} />
               </Row>
-              <Row label={`X position ${Math.round(emojiX * 100)}%`}>
-                <Slider min={0} max={100} step={1} value={[emojiX * 100]} onValueChange={(v) => setEmojiX(v[0] / 100)} />
-              </Row>
-              <Row label={`Y position ${Math.round(emojiY * 100)}%`}>
-                <Slider min={0} max={100} step={1} value={[emojiY * 100]} onValueChange={(v) => setEmojiY(v[0] / 100)} />
-              </Row>
+              <p className="text-[11px] text-muted-foreground">Drag the emoji on the canvas to reposition.</p>
               <div className="grid grid-cols-7 gap-1.5">
                 {EMOJI_GRID.map((e) => {
                   const selected = e === emoji;
