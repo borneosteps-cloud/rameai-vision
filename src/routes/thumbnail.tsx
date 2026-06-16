@@ -267,9 +267,7 @@ function ThumbnailPage() {
                 <Slider min={0} max={24} step={1} value={[titleBlur]} onValueChange={(v) => setTitleBlur(v[0])} />
               </Row>
               <AlignRow value={titleAlign} onChange={setTitleAlign} />
-              <Row label={`Y position ${Math.round(titleY * 100)}%`}>
-                <Slider min={8} max={92} step={1} value={[titleY * 100]} onValueChange={(v) => setTitleY(v[0] / 100)} />
-              </Row>
+              <p className="text-[11px] text-muted-foreground">Drag the title on the canvas to reposition.</p>
             </TabsContent>
 
             <TabsContent value="subtitle" className="space-y-3 rounded-2xl border border-border/60 bg-card p-4">
